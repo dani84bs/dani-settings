@@ -90,6 +90,54 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(applyKeybindingsDisposable);
+
+	let quickActionsDisposable = vscode.commands.registerCommand('dani-codium.showQuickActions', () => {
+		const quickPick = vscode.window.createQuickPick();
+
+		interface QuickActionItem extends vscode.QuickPickItem {
+			actionId: string;
+		}
+
+		const items: QuickActionItem[] = [
+			{
+				label: 's',
+				description: 'Apply recommended settings',
+				actionId: 'dani-codium.applyRecommendedSettings'
+			},
+			{
+				label: 'k',
+				description: 'Apply recommended keybindings',
+				actionId: 'dani-codium.applyRecommendedKeybindings'
+			}
+		];
+
+		quickPick.items = items;
+		quickPick.placeholder = 'Type a letter to execute an action';
+
+		const executeAction = (item: QuickActionItem) => {
+			quickPick.hide();
+			vscode.commands.executeCommand(item.actionId);
+		};
+
+		quickPick.onDidChangeValue(value => {
+			const matchedItem = items.find(item => item.label === value.toLowerCase());
+			if (matchedItem) {
+				executeAction(matchedItem);
+			}
+		});
+
+		quickPick.onDidAccept(() => {
+			const selectedItem = quickPick.selectedItems[0] as QuickActionItem;
+			if (selectedItem) {
+				executeAction(selectedItem);
+			}
+		});
+
+		quickPick.onDidHide(() => quickPick.dispose());
+		quickPick.show();
+	});
+
+	context.subscriptions.push(quickActionsDisposable);
 }
 
 export function deactivate() { }

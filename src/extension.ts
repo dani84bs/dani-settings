@@ -94,6 +94,7 @@ export function activate(context: vscode.ExtensionContext) {
 	let quickActionsDisposable = vscode.commands.registerCommand('dani-codium.showQuickActions', () => {
 		interface QuickActionItem extends vscode.QuickPickItem {
 			actionId?: string;
+			args?: any;
 			subActions?: QuickActionItem[];
 		}
 
@@ -102,6 +103,7 @@ export function activate(context: vscode.ExtensionContext) {
 				label: action.key,
 				description: action.description,
 				actionId: action.command,
+				args: action.args,
 				subActions: action.actions ? mapUserActions(action.actions) : undefined
 			}));
 		};
@@ -123,6 +125,31 @@ export function activate(context: vscode.ExtensionContext) {
 		const userActions = config.get<any[]>('quickActions', []);
 		const allItems: QuickActionItem[] = [...defaultItems, ...mapUserActions(userActions)];
 
+		const parseArgs = (args: any): any => {
+			if (typeof args === 'string') {
+				// Check if it's a URI-like string (e.g., file://, http://, vscode://)
+				if (/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(args)) {
+					try {
+						return vscode.Uri.parse(args);
+					} catch {
+						return args;
+					}
+				}
+				return args;
+			}
+			if (Array.isArray(args)) {
+				return args.map(parseArgs);
+			}
+			if (args !== null && typeof args === 'object') {
+				const result: any = {};
+				for (const key in args) {
+					result[key] = parseArgs(args[key]);
+				}
+				return result;
+			}
+			return args;
+		};
+
 		const showMenu = (items: QuickActionItem[], title?: string, onBack?: () => void) => {
 			const BACKSPACE_MARKER = '\u200B';
 			const quickPick = vscode.window.createQuickPick<QuickActionItem>();
@@ -141,7 +168,7 @@ export function activate(context: vscode.ExtensionContext) {
 				quickPick.buttons = [vscode.QuickInputButtons.Back];
 			}
 
-			const executeAction = (item: QuickActionItem) => {
+			const executeAction = async (item: QuickActionItem) => {
 				if (item.subActions) {
 					quickPick.hide();
 					showMenu(item.subActions, `${title ? title + ' > ' : ''}${item.description}`, () => {
@@ -149,7 +176,21 @@ export function activate(context: vscode.ExtensionContext) {
 					});
 				} else if (item.actionId) {
 					quickPick.hide();
-					vscode.commands.executeCommand(item.actionId);
+					try {
+						const finalArgs = parseArgs(item.args);
+						if (finalArgs !== undefined) {
+							if (Array.isArray(finalArgs)) {
+								await vscode.commands.executeCommand(item.actionId, ...finalArgs);
+							} else {
+								await vscode.commands.executeCommand(item.actionId, finalArgs);
+							}
+						} else {
+							await vscode.commands.executeCommand(item.actionId);
+						}
+					} catch (err) {
+						const errorMsg = err instanceof Error ? err.message : String(err);
+						vscode.window.showErrorMessage(`Failed to execute command '${item.actionId}': ${errorMsg}`);
+					}
 				}
 			};
 

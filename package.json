@@ -66,6 +66,17 @@
                 "type": "string",
                 "description": "A brief description of the action"
               },
+              "args": {
+                "type": [
+                  "string",
+                  "number",
+                  "boolean",
+                  "object",
+                  "array",
+                  "null"
+                ],
+                "description": "Optional arguments to pass to the command."
+              },
               "actions": {
                 "type": "array",
                 "description": "A list of sub-actions. If this is provided, 'command' is ignored.",

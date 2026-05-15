@@ -1,0 +1,74 @@
+{
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+  "editor.cursorSurroundingLines": 10,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.inlayHints.enabled": "offUnlessPressed",
+  "editor.lineNumbers": "on",
+  "editor.minimap.enabled": false,
+  "files.autoSave": "onFocusChange",
+  "files.simpleDialog.enable": true,
+  "http.systemCertificatesNode": true,
+  "lazygit-vscode.autoMaximizeWindow": true,
+  "lazygit-vscode.panels": {
+    "panel": "hide",
+    "secondarySidebar": "hide",
+    "sidebar": "hide"
+  },
+  "lazygit-vscode.venvActivationDelay": 200,
+  "path-intellisense.autoTriggerNextSuggestion": true,
+  "python.analysis.autoFormatStrings": true,
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.exclude": ["**/ignore", "**/.venv"],
+  "python.analysis.typeCheckingMode": "standard",
+  "telemetry.editStats.enabled": false,
+  "telemetry.feedback.enabled": false,
+  "telemetry.telemetryLevel": "off",
+  "terminal.integrated.enablePersistentSessions": false,
+  "terminal.integrated.macOptionIsMeta": true,
+  "terminal.integrated.shellIntegration.enabled": false,
+  "terminal.integrated.stickyScroll.enabled": false,
+  "terminal.integrated.suggest.enabled": false,
+  "vim.easymotion": true,
+  "vim.handleKeys": {
+    "<C-d>": true,
+    "<C-h>": false,
+    "<C-j>": false,
+    "<C-k>": false,
+    "<C-l>": false,
+    "<C-s>": false,
+    "<C-space>": false
+  },
+  "vim.highlightedyank.color": "#a9dc7660",
+  "vim.highlightedyank.enable": true,
+  "vim.hlsearch": true,
+  "vim.ignorecase": true,
+  "vim.inccommand": "replace",
+  "vim.incsearch": true,
+  "vim.normalModeKeyBindingsNonRecursive": [],
+  "vim.replaceWithRegister": true,
+  "vim.showcmd": true,
+  "vim.showmodename": true,
+  "vim.smartcase": true,
+  "vim.sneak": true,
+  "vim.sneakUseIgnorecaseAndSmartcase": true,
+  "vim.useCtrlKeys": true,
+  "vim.useSystemClipboard": true,
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": [">"],
+      "commands": ["editor.action.indentLines"]
+    },
+    {
+      "before": ["<"],
+      "commands": ["editor.action.outdentLines"]
+    }
+  ],
+  "window.dialogStyle": "custom",
+  "window.newWindowDimensions": "maximized",
+  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "workbench.secondarySideBar.defaultVisibility": "hidden",
+  "workbench.startupEditor": "none"
+}
+

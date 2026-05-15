@@ -4,18 +4,36 @@
   "description": "My config",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.120.0"
+    "vscode": "^1.116.0"
   },
   "categories": [
     "Other"
+  ],
+  "extensionDependencies": [
+    "vscodevim.vim",
+    "jdinhlife.gruvbox",
+    "TomPollak.lazygit-vscode"
+  ],
+  "extensionPack": [
+    "yzhang.markdown-all-in-one",
+    "ms-python.python",
+    "ms-python.black-formatter",
+    "christian-kohler.path-intellisense",
+    "mechatroner.rainbow-csv",
+    "formulahendry.code-runner",
+    "tamasfe.even-better-toml"
   ],
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "dani-codium.helloWorld",
-        "title": "Hello World"
+        "command": "dani-codium.applyRecommendedSettings",
+        "title": "Dani: Apply settings"
+      },
+      {
+        "command": "dani-codium.applyRecommendedKeybindings",
+        "title": "Dani: Apply keybindings"
       }
     ]
   },
@@ -34,15 +52,19 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.120.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
-    "typescript-eslint": "^8.56.1",
-    "eslint": "^9.39.3",
+    "@types/vscode": "^1.116.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
     "esbuild": "^0.27.3",
+    "eslint": "^9.39.3",
+    "jsonc-parser": "^3.3.1",
     "npm-run-all": "^4.1.5",
     "typescript": "^5.9.3",
-    "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2"
+    "typescript-eslint": "^8.56.1"
+  },
+  "dependencies": {
+    "jsonc-parser": "^3.3.1"
   }
 }

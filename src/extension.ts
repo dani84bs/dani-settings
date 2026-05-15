@@ -92,11 +92,19 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(applyKeybindingsDisposable);
 
 	let quickActionsDisposable = vscode.commands.registerCommand('dani-codium.showQuickActions', () => {
-		const quickPick = vscode.window.createQuickPick();
-
 		interface QuickActionItem extends vscode.QuickPickItem {
-			actionId: string;
+			actionId?: string;
+			subActions?: QuickActionItem[];
 		}
+
+		const mapUserActions = (actions: any[]): QuickActionItem[] => {
+			return actions.map(action => ({
+				label: action.key,
+				description: action.description,
+				actionId: action.command,
+				subActions: action.actions ? mapUserActions(action.actions) : undefined
+			}));
+		};
 
 		const defaultItems: QuickActionItem[] = [
 			{
@@ -112,41 +120,92 @@ export function activate(context: vscode.ExtensionContext) {
 		];
 
 		const config = vscode.workspace.getConfiguration('dani-codium');
-		const userActions = config.get<{ key: string, command: string, description: string }[]>('quickActions', []);
+		const userActions = config.get<any[]>('quickActions', []);
+		const allItems: QuickActionItem[] = [...defaultItems, ...mapUserActions(userActions)];
 
-		const items: QuickActionItem[] = [
-			...defaultItems,
-			...userActions.map(action => ({
-				label: action.key,
-				description: action.description,
-				actionId: action.command
-			}))
-		];
+		const showMenu = (items: QuickActionItem[], title?: string, onBack?: () => void) => {
+			const BACKSPACE_MARKER = '\u200B';
+			const quickPick = vscode.window.createQuickPick<QuickActionItem>();
+			
+			// Prepend the marker to all labels so they match the initial value and aren't filtered out
+			quickPick.items = items.map(item => ({
+				...item,
+				label: BACKSPACE_MARKER + item.label
+			}));
+			
+			quickPick.placeholder = 'Type a letter to execute an action (Backspace to go back)';
+			quickPick.title = title;
+			quickPick.value = BACKSPACE_MARKER;
 
-		quickPick.items = items;
-		quickPick.placeholder = 'Type a letter to execute an action';
+			if (onBack) {
+				quickPick.buttons = [vscode.QuickInputButtons.Back];
+			}
 
-		const executeAction = (item: QuickActionItem) => {
-			quickPick.hide();
-			vscode.commands.executeCommand(item.actionId);
+			const executeAction = (item: QuickActionItem) => {
+				if (item.subActions) {
+					quickPick.hide();
+					showMenu(item.subActions, `${title ? title + ' > ' : ''}${item.description}`, () => {
+						showMenu(items, title, onBack);
+					});
+				} else if (item.actionId) {
+					quickPick.hide();
+					vscode.commands.executeCommand(item.actionId);
+				}
+			};
+
+			quickPick.onDidChangeValue(value => {
+				if (onBack && value === '') {
+					quickPick.hide();
+					onBack();
+					return;
+				}
+
+				// If value is just the marker, do nothing
+				if (value === BACKSPACE_MARKER) {
+					return;
+				}
+
+				// If the user somehow deleted the marker but typed something else, 
+				// or if they typed a character after the marker.
+				const actualInput = value.startsWith(BACKSPACE_MARKER) ? value.slice(BACKSPACE_MARKER.length) : value;
+				
+				if (actualInput === '') {
+					return;
+				}
+
+				const matchedItem = items.find(item => item.label.toLowerCase() === actualInput.toLowerCase());
+				if (matchedItem) {
+					executeAction(matchedItem);
+				} else {
+					// If no match, reset to the marker so the next backspace works
+					// and all items become visible again
+					quickPick.value = BACKSPACE_MARKER;
+				}
+			});
+
+			quickPick.onDidAccept(() => {
+				const selectedItem = quickPick.selectedItems[0];
+				if (selectedItem) {
+					// Need to pass the original item without the prepended marker
+					const originalItem = items.find(i => i.label === selectedItem.label.replace(BACKSPACE_MARKER, ''));
+					if (originalItem) {
+						executeAction(originalItem);
+					}
+				}
+			});
+
+			quickPick.onDidTriggerButton(button => {
+				if (button === vscode.QuickInputButtons.Back && onBack) {
+					quickPick.hide();
+					onBack();
+				}
+			});
+
+			quickPick.onDidHide(() => quickPick.dispose());
+			quickPick.show();
 		};
 
-		quickPick.onDidChangeValue(value => {
-			const matchedItem = items.find(item => item.label === value.toLowerCase());
-			if (matchedItem) {
-				executeAction(matchedItem);
-			}
-		});
-
-		quickPick.onDidAccept(() => {
-			const selectedItem = quickPick.selectedItems[0] as QuickActionItem;
-			if (selectedItem) {
-				executeAction(selectedItem);
-			}
-		});
-
-		quickPick.onDidHide(() => quickPick.dispose());
-		quickPick.show();
+		showMenu(allItems);
 	});
 
 	context.subscriptions.push(quickActionsDisposable);

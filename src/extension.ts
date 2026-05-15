@@ -98,7 +98,7 @@ export function activate(context: vscode.ExtensionContext) {
 			actionId: string;
 		}
 
-		const items: QuickActionItem[] = [
+		const defaultItems: QuickActionItem[] = [
 			{
 				label: 's',
 				description: 'Apply recommended settings',
@@ -109,6 +109,18 @@ export function activate(context: vscode.ExtensionContext) {
 				description: 'Apply recommended keybindings',
 				actionId: 'dani-codium.applyRecommendedKeybindings'
 			}
+		];
+
+		const config = vscode.workspace.getConfiguration('dani-codium');
+		const userActions = config.get<{ key: string, command: string, description: string }[]>('quickActions', []);
+
+		const items: QuickActionItem[] = [
+			...defaultItems,
+			...userActions.map(action => ({
+				label: action.key,
+				description: action.description,
+				actionId: action.command
+			}))
 		];
 
 		quickPick.items = items;

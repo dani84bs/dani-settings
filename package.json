@@ -39,7 +39,39 @@
         "command": "dani-codium.showQuickActions",
         "title": "Dani: Show quick actions"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Dani Codium",
+      "properties": {
+        "dani-codium.quickActions": {
+          "type": "array",
+          "default": [],
+          "description": "Configurable quick actions. Each item should have a 'key', 'command', and 'description'.",
+          "items": {
+            "type": "object",
+            "required": [
+              "key",
+              "command",
+              "description"
+            ],
+            "properties": {
+              "key": {
+                "type": "string",
+                "description": "The key (letter) to trigger the action"
+              },
+              "command": {
+                "type": "string",
+                "description": "The command ID to execute"
+              },
+              "description": {
+                "type": "string",
+                "description": "A brief description of the action"
+              }
+            }
+          }
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",

@@ -34,61 +34,8 @@
       {
         "command": "dani-codium.applyRecommendedKeybindings",
         "title": "Dani: Apply keybindings"
-      },
-      {
-        "command": "dani-codium.showQuickActions",
-        "title": "Dani: Show quick actions"
       }
-    ],
-    "configuration": {
-      "title": "Dani Codium",
-      "properties": {
-        "dani-codium.quickActions": {
-          "type": "array",
-          "default": [],
-          "description": "Configurable quick actions. Each item should have a 'key', 'description', and either a 'command' or an 'actions' array for a submenu.",
-          "items": {
-            "type": "object",
-            "required": [
-              "key",
-              "description"
-            ],
-            "properties": {
-              "key": {
-                "type": "string",
-                "description": "The key (letter) to trigger the action"
-              },
-              "command": {
-                "type": "string",
-                "description": "The command ID to execute"
-              },
-              "description": {
-                "type": "string",
-                "description": "A brief description of the action"
-              },
-              "args": {
-                "type": [
-                  "string",
-                  "number",
-                  "boolean",
-                  "object",
-                  "array",
-                  "null"
-                ],
-                "description": "Optional arguments to pass to the command."
-              },
-              "actions": {
-                "type": "array",
-                "description": "A list of sub-actions. If this is provided, 'command' is ignored.",
-                "items": {
-                  "$ref": "#/properties/dani-codium.quickActions/items"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run package",

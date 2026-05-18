@@ -1,74 +1,226 @@
 {
-  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
-  "editor.cursorSurroundingLines": 10,
-  "editor.formatOnPaste": true,
-  "editor.formatOnSave": true,
-  "editor.inlayHints.enabled": "offUnlessPressed",
-  "editor.lineNumbers": "on",
-  "editor.minimap.enabled": false,
-  "files.autoSave": "onFocusChange",
-  "files.simpleDialog.enable": true,
-  "http.systemCertificatesNode": true,
-  "lazygit-vscode.autoMaximizeWindow": true,
-  "lazygit-vscode.panels": {
-    "panel": "hide",
-    "secondarySidebar": "hide",
-    "sidebar": "hide"
-  },
-  "lazygit-vscode.venvActivationDelay": 200,
-  "path-intellisense.autoTriggerNextSuggestion": true,
-  "python.analysis.autoFormatStrings": true,
-  "python.analysis.autoImportCompletions": true,
-  "python.analysis.diagnosticMode": "workspace",
-  "python.analysis.exclude": ["**/ignore", "**/.venv"],
-  "python.analysis.typeCheckingMode": "standard",
-  "telemetry.editStats.enabled": false,
-  "telemetry.feedback.enabled": false,
-  "telemetry.telemetryLevel": "off",
-  "terminal.integrated.enablePersistentSessions": false,
-  "terminal.integrated.macOptionIsMeta": true,
-  "terminal.integrated.shellIntegration.enabled": false,
-  "terminal.integrated.stickyScroll.enabled": false,
-  "terminal.integrated.suggest.enabled": false,
-  "vim.easymotion": true,
-  "vim.handleKeys": {
-    "<C-d>": true,
-    "<C-h>": false,
-    "<C-j>": false,
-    "<C-k>": false,
-    "<C-l>": false,
-    "<C-s>": false,
-    "<C-space>": false
-  },
-  "vim.highlightedyank.color": "#a9dc7660",
-  "vim.highlightedyank.enable": true,
-  "vim.hlsearch": true,
-  "vim.ignorecase": true,
-  "vim.inccommand": "replace",
-  "vim.incsearch": true,
-  "vim.normalModeKeyBindingsNonRecursive": [],
-  "vim.replaceWithRegister": true,
-  "vim.showcmd": true,
-  "vim.showmodename": true,
-  "vim.smartcase": true,
-  "vim.sneak": true,
-  "vim.sneakUseIgnorecaseAndSmartcase": true,
-  "vim.useCtrlKeys": true,
-  "vim.useSystemClipboard": true,
-  "vim.visualModeKeyBindingsNonRecursive": [
-    {
-      "before": [">"],
-      "commands": ["editor.action.indentLines"]
+    
+    "workbench.startupEditor": "none",
+    "terminal.integrated.defaultProfile.osx": "fish",
+    "workbench.colorTheme": "Gruvbox Dark Hard",
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+    "editor.cursorSurroundingLines": 10,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.inlayHints.enabled": "offUnlessPressed",
+    "editor.lineNumbers": "on",
+    "editor.minimap.enabled": false,
+    "files.autoSave": "onFocusChange",
+    "files.simpleDialog.enable": true,
+    "http.systemCertificatesNode": true,
+    "lazygit-vscode.autoMaximizeWindow": true,
+    "lazygit-vscode.panels": {
+        "panel": "hide",
+        "secondarySidebar": "hide",
+        "sidebar": "hide"
     },
-    {
-      "before": ["<"],
-      "commands": ["editor.action.outdentLines"]
-    }
-  ],
-  "window.dialogStyle": "custom",
-  "window.newWindowDimensions": "maximized",
-  "workbench.colorTheme": "Gruvbox Dark Hard",
-  "workbench.secondarySideBar.defaultVisibility": "hidden",
-  "workbench.startupEditor": "none"
+    "lazygit-vscode.venvActivationDelay": 200,
+    "path-intellisense.autoTriggerNextSuggestion": true,
+    "python.analysis.autoFormatStrings": true,
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.diagnosticMode": "workspace",
+    "python.analysis.exclude": [
+        "**/ignore",
+        "**/.venv"
+    ],
+    "python.analysis.typeCheckingMode": "standard",
+    "telemetry.editStats.enabled": false,
+    "telemetry.feedback.enabled": false,
+    "telemetry.telemetryLevel": "off",
+    "terminal.integrated.enablePersistentSessions": false,
+    "terminal.integrated.macOptionIsMeta": true,
+    "terminal.integrated.shellIntegration.enabled": false,
+    "terminal.integrated.stickyScroll.enabled": false,
+    "terminal.integrated.suggest.enabled": false,
+    "vim.easymotion": true,
+    "vim.handleKeys": {
+        "<C-d>": true,
+        "<C-h>": false,
+        "<C-j>": false,
+        "<C-k>": false,
+        "<C-l>": false,
+        "<C-s>": false,
+        "<C-space>": false
+    },
+    "vim.highlightedyank.color": "#a9dc7660",
+    "vim.highlightedyank.enable": true,
+    "vim.hlsearch": true,
+    "vim.ignorecase": true,
+    "vim.inccommand": "replace",
+    "vim.incsearch": true,
+    "vim.normalModeKeyBindingsNonRecursive": [],
+    "vim.replaceWithRegister": true,
+    "vim.showcmd": true,
+    "vim.showmodename": true,
+    "vim.smartcase": true,
+    "vim.sneak": true,
+    "vim.sneakUseIgnorecaseAndSmartcase": true,
+    "vim.useCtrlKeys": true,
+    "vim.useSystemClipboard": true,
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                ">"
+            ],
+            "commands": [
+                "editor.action.indentLines"
+            ]
+        },
+        {
+            "before": [
+                "<"
+            ],
+            "commands": [
+                "editor.action.outdentLines"
+            ]
+        }
+    ],
+    "window.dialogStyle": "custom",
+    "window.newWindowDimensions": "maximized",
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "vim.leader": " ",
+    "quickfire.actions": [
+        {
+            "key": "d",
+            "description": "+Debug Menu",
+            "actions": [
+                {
+                    "key": "D",
+                    "description": "Run without debug",
+                    "command": "workbench.action.debug.run"
+                },
+                {
+                    "key": "b",
+                    "description": "Toggle breakpoint",
+                    "command": "editor.debug.action.toggleBreakpoint"
+                },
+                {
+                    "key": "d",
+                    "description": "Start debugging",
+                    "command": "workbench.action.debug.start"
+                },
+                {
+                    "key": "s",
+                    "description": "Stop debug",
+                    "command": "workbench.action.debug.stop"
+                }
+            ]
+        },
+        {
+            "key": "f",
+            "description": "+File Menu",
+            "actions": [
+                {
+                    "key": "f",
+                    "description": "Open file or folder",
+                    "command": "file-browser.open"
+                },
+                {
+                    "key": "s",
+                    "description": "Save current file",
+                    "command": "workbench.action.files.save",
+                },
+                {
+                    "key": "c",
+                    "description": "+Config Menu",
+                    "actions": [
+                        {
+                            "key": "s",
+                            "description": "Settings Json",
+                            "command": "workbench.action.openSettingsJson"
+                        },
+                        {
+                            "key": "k",
+                            "description": "Keybindings Json",
+                            "command": "workbench.action.openGlobalKeybindingsFile"
+                        }
+                    ]
+                },
+            ]
+        },
+        {
+            "key": "c",
+            "command": "workbench.action.closeActiveEditor",
+            "description": "Close Active Editor"
+        },
+        {
+            "key": "g",
+            "description": "+Git Commands",
+            "actions": [
+                {
+                    "key": "g",
+                    "command": "lazygit-vscode.toggle",
+                    "description": "Spawn Lazygit"
+                },
+            ]
+        },
+        {
+            "key": "p",
+            "description": "+Projects",
+            "actions": [
+                {
+                    "key": "p",
+                    "description": "List projects",
+                    "command": "workbench.action.openRecent"
+                },
+                {
+                    "key": "f",
+                    "description": "Open project file",
+                    "command": "workbench.action.quickOpen"
+                }
+            ]
+        },
+        {
+            "key": "t",
+            "description": "+Terminal",
+            "actions": [
+                {
+                    "key": "T",
+                    "description": "Open Terminal in editor area",
+                    "command": "workbench.action.createTerminalEditor"
+                },
+                {
+                    "key": "t",
+                    "description": "Open Terminal panel",
+                    "command": "workbench.action.terminal.toggleTerminal"
+                }
+            ]
+        },
+        {
+            "key": "w",
+            "description": "+Windows",
+            "actions": [
+                {
+                    "key": "d",
+                    "description": "Close window",
+                    "command": "workbench.action.closeWindow"
+                },
+                {
+                    "key": "n",
+                    "description": "New window",
+                    "command": "workbench.action.newWindow"
+                },
+                {
+                    "key": "k",
+                    "description": "Close workspace",
+                    "command": "workbench.action.closeFolder"
+                },
+                {
+                    "key": "s",
+                    "description": "Switch window",
+                    "command": "workbench.action.switchWindow"
+                },
+            ]
+        },
+    ],
+    "workbench.editor.useModal": "off",
+    "terminal.integrated.commandsToSkipShell": [
+        "quickfire.showQuickActions"
+    ],
+    "chat.disableAIFeatures": true
 }
-

@@ -280,6 +280,35 @@
                     "command": "search.action.focusFilesToInclude"
                 },
                 {
+                    "key": "j",
+                    "description": "Super jump",
+                    "command": "vim.remap",
+                    "args": {
+                        "after": [
+                            "leader",
+                            "leader",
+                            "leader",
+                            "j"
+                        ]
+                    }
+                },
+                {
+                    "key": "l",
+                    "description": "Jump to line",
+                    "command": "vim.remap",
+                    "args": {
+                        "after": [
+                            "leader",
+                            "leader",
+                            "leader",
+                            "b",
+                            "d",
+                            "j",
+                            "k"
+                        ]
+                    }
+                },
+                {
                     "key": "n",
                     "description": "New search editor",
                     "command": "search.action.openNewEditor"

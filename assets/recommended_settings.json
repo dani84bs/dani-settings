@@ -87,7 +87,7 @@
     "quickfire.actions": [
         {
             "key": "d",
-            "description": "+Debug Menu",
+            "description": "+Debug",
             "actions": [
                 {
                     "key": "D",
@@ -113,7 +113,7 @@
         },
         {
             "key": "f",
-            "description": "+File Menu",
+            "description": "+File",
             "actions": [
                 {
                     "key": "f",
@@ -127,7 +127,7 @@
                 },
                 {
                     "key": "c",
-                    "description": "+Config Menu",
+                    "description": "+Config",
                     "actions": [
                         {
                             "key": "s",
@@ -145,8 +145,36 @@
         },
         {
             "key": "c",
-            "command": "workbench.action.closeActiveEditor",
-            "description": "Close Active Editor"
+            "description": "+Code",
+            "actions": [
+                {
+                    "key": "r",
+                    "description": "+Refactor",
+                    "actions": [
+                        {
+                            "key": "r",
+                            "description": "Rename Symbol",
+                            "command": "editor.action.rename"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "e",
+            "description": "+Errors",
+            "actions": [
+                {
+                    "key": "n",
+                    "description": "Next Error",
+                    "command": "editor.action.marker.next"
+                },
+                {
+                    "key": "p",
+                    "description": "Previous Error",
+                    "command": "editor.action.marker.prev"
+                }
+            ]
         },
         {
             "key": "g",

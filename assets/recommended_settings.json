@@ -85,9 +85,24 @@
     "workbench.secondarySideBar.defaultVisibility": "hidden",
     "quickfire.actions": [
         {
+            "key": " ",
+            "description": "Command palette",
+            "command": "workbench.action.showCommands"
+        },
+        {
+            "key": ",",
+            "description": "Last buffer",
+            "command": "workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup"
+        },
+        {
             "key": "b",
             "description": "+Buffers",
             "actions": [
+                {
+                    "key": "b",
+                    "description": "Show all buffers",
+                    "command": "workbench.action.showAllEditorsByMostRecentlyUsed"
+                },
                 {
                     "key": "d",
                     "description": "Close current buffer",
@@ -175,6 +190,17 @@
                             "key": "r",
                             "description": "Rename Symbol",
                             "command": "editor.action.rename"
+                        }
+                    ]
+                },
+                {
+                    "key": "t",
+                    "description": "+Tests",
+                    "actions": [
+                        {
+                            "key": "a",
+                            "description": "Run all tests",
+                            "command": "testing.runAll"
                         }
                     ]
                 }

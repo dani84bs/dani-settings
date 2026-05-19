@@ -9,6 +9,10 @@
   "categories": [
     "Extension Packs"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dani84bs/dani-settings.git"
+  },
   "extensionDependencies": [
     "vscodevim.vim",
     "jdinhlife.gruvbox",

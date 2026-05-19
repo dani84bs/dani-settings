@@ -4,7 +4,7 @@ import * as path from 'path';
 import * as jsonc from 'jsonc-parser/lib/esm/main';
 
 export function activate(context: vscode.ExtensionContext) {
-	let disposable = vscode.commands.registerCommand('dani-codium.applyRecommendedSettings', async () => {
+	let disposable = vscode.commands.registerCommand('dani-settings.applyRecommendedSettings', async () => {
 		const settingsPath = path.join(context.extensionPath, 'assets', 'recommended_settings.json');
 		try {
 			const data = fs.readFileSync(settingsPath, 'utf8');
@@ -23,7 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(disposable);
 
-	let applyKeybindingsDisposable = vscode.commands.registerCommand('dani-codium.applyRecommendedKeybindings', async () => {
+	let applyKeybindingsDisposable = vscode.commands.registerCommand('dani-settings.applyRecommendedKeybindings', async () => {
 		const recommendedKeybindingsPath = path.join(context.extensionPath, 'assets', 'recommended_keybindings.json');
 
 		// Traverse up from globalStorageUri to find the base 'User' folder reliably.

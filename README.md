@@ -1,6 +1,6 @@
-# dani-codium README
+# dani-settings README
 
-This is the README for your extension "dani-codium". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "dani-settings". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 

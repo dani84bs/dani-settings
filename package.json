@@ -1,6 +1,6 @@
 {
-  "name": "dani-codium",
-  "displayName": "dani-codium",
+  "name": "dani-settings",
+  "displayName": "dani-settings",
   "description": "My config",
   "version": "0.0.1",
   "engines": {
@@ -31,11 +31,11 @@
   "contributes": {
     "commands": [
       {
-        "command": "dani-codium.applyRecommendedSettings",
+        "command": "dani-settings.applyRecommendedSettings",
         "title": "Dani: Apply settings"
       },
       {
-        "command": "dani-codium.applyRecommendedKeybindings",
+        "command": "dani-settings.applyRecommendedKeybindings",
         "title": "Dani: Apply keybindings"
       }
     ]

@@ -1,5 +1,4 @@
 {
-    
     "workbench.startupEditor": "none",
     "terminal.integrated.defaultProfile.osx": "fish",
     "workbench.colorTheme": "Gruvbox Dark Hard",
@@ -45,7 +44,7 @@
         "<C-k>": false,
         "<C-l>": false,
         "<C-s>": false,
-        "<C-space>": false,
+        "<C-space>": false
     },
     "vim.highlightedyank.color": "#a9dc7660",
     "vim.highlightedyank.enable": true,
@@ -117,7 +116,7 @@
                     "key": "p",
                     "description": "Focus previous buffer",
                     "command": "workbench.action.previousEditor"
-                },
+                }
             ]
         },
         {
@@ -158,7 +157,7 @@
                 {
                     "key": "s",
                     "description": "Save current file",
-                    "command": "workbench.action.files.save",
+                    "command": "workbench.action.files.save"
                 },
                 {
                     "key": "c",
@@ -175,7 +174,7 @@
                             "command": "workbench.action.openGlobalKeybindingsFile"
                         }
                     ]
-                },
+                }
             ]
         },
         {
@@ -230,7 +229,7 @@
                     "key": "g",
                     "command": "lazygit-vscode.toggle",
                     "description": "Spawn Lazygit"
-                },
+                }
             ]
         },
         {
@@ -327,7 +326,7 @@
                     "key": "x",
                     "description": "Focus excluded files",
                     "command": "search.action.focusFilesToExclude"
-                },
+                }
             ]
         },
         {
@@ -369,9 +368,9 @@
                     "key": "s",
                     "description": "Switch window",
                     "command": "workbench.action.switchWindow"
-                },
+                }
             ]
-        },
+        }
     ],
     "workbench.editor.useModal": "off",
     "terminal.integrated.commandsToSkipShell": [

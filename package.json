@@ -13,16 +13,18 @@
     "vscodevim.vim",
     "jdinhlife.gruvbox",
     "TomPollak.lazygit-vscode",
-    "dani84bs.quickfire"
+    "dani84bs.quickfire",
+    "ms-python.python",
+    "ms-vscode-remote.vscode-remote-extensionpack"
   ],
   "extensionPack": [
     "yzhang.markdown-all-in-one",
     "ms-python.python",
-    "ms-python.black-formatter",
     "christian-kohler.path-intellisense",
     "mechatroner.rainbow-csv",
     "formulahendry.code-runner",
-    "tamasfe.even-better-toml"
+    "tamasfe.even-better-toml",
+    "charliermarsh.ruff"
   ],
   "activationEvents": [],
   "main": "./dist/extension.js",

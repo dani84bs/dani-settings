@@ -4,6 +4,11 @@
         "command": "quickfire.showQuickActions"
     },
     {
+        "key": "space",
+        "command": "quickfire.showQuickActions",
+        "when": "editorTextFocus && vim.mode == 'Normal'"
+    },
+    {
         "key": "ctrl+h",
         "command": "workbench.action.navigateLeft"
     },

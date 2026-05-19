@@ -45,7 +45,7 @@
         "<C-k>": false,
         "<C-l>": false,
         "<C-s>": false,
-        "<C-space>": false
+        "<C-space>": false,
     },
     "vim.highlightedyank.color": "#a9dc7660",
     "vim.highlightedyank.enable": true,
@@ -83,8 +83,28 @@
     "window.dialogStyle": "custom",
     "window.newWindowDimensions": "maximized",
     "workbench.secondarySideBar.defaultVisibility": "hidden",
-    "vim.leader": " ",
     "quickfire.actions": [
+        {
+            "key": "b",
+            "description": "+Buffers",
+            "actions": [
+                {
+                    "key": "d",
+                    "description": "Close current buffer",
+                    "command": "workbench.action.closeActiveEditor"
+                },
+                {
+                    "key": "n",
+                    "description": "Focus next buffer",
+                    "command": "workbench.action.nextEditor"
+                },
+                {
+                    "key": "p",
+                    "description": "Focus previous buffer",
+                    "command": "workbench.action.previousEditor"
+                },
+            ]
+        },
         {
             "key": "d",
             "description": "+Debug",
@@ -201,6 +221,58 @@
                     "description": "Open project file",
                     "command": "workbench.action.quickOpen"
                 }
+            ]
+        },
+        {
+            "key": "r",
+            "description": "+Remote",
+            "actions": [
+                {
+                    "key": "c",
+                    "description": "Connect to host",
+                    "command": "opensshremotes.openEmptyWindowInCurrentWindow"
+                },
+                {
+                    "key": "d",
+                    "description": "Open workspace in dev container",
+                    "command": "remote-containers.openWorkspace"
+                }
+            ]
+        },
+        {
+            "key": "s",
+            "description": "+Search",
+            "actions": [
+                {
+                    "key": "i",
+                    "description": "Focus search editor input",
+                    "command": "search.action.focusQueryEditorWidget"
+                },
+                {
+                    "key": "I",
+                    "description": "Focus included files",
+                    "command": "search.action.focusFilesToInclude"
+                },
+                {
+                    "key": "n",
+                    "description": "New search editor",
+                    "command": "search.action.openNewEditor"
+                },
+                {
+                    "key": "o",
+                    "description": "Open search editor",
+                    "command": "search.action.openEditor"
+                },
+                {
+                    "key": "r",
+                    "description": "Focus search results",
+                    "command": "search.action.focusNextSearchResult"
+                },
+                {
+                    "key": "x",
+                    "description": "Focus excluded files",
+                    "command": "search.action.focusFilesToExclude"
+                },
             ]
         },
         {

@@ -4,7 +4,7 @@
   "description": "My config",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.116.0"
+    "vscode": "^1.107.0"
   },
   "categories": [
     "Extension Packs"
@@ -17,6 +17,7 @@
     "vscodevim.vim",
     "jdinhlife.gruvbox",
     "TomPollak.lazygit-vscode",
+    "bodil.file-browser",
     "dani84bs.quickfire",
     "ms-python.python",
     "ms-vscode-remote.vscode-remote-extensionpack"
@@ -62,7 +63,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
-    "@types/vscode": "^1.116.0",
+    "@types/vscode": "^1.107.0",
     "@vscode/test-cli": "^0.0.12",
     "@vscode/test-electron": "^2.5.2",
     "esbuild": "^0.27.3",

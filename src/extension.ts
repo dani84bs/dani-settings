@@ -10,11 +10,20 @@ export function activate(context: vscode.ExtensionContext) {
 			const data = fs.readFileSync(settingsPath, 'utf8');
 			const settings = JSON.parse(data);
 
+			const failedKeys: string[] = [];
 			for (const [key, value] of Object.entries(settings)) {
-				await vscode.workspace.getConfiguration().update(key, value, vscode.ConfigurationTarget.Global);
+				try {
+					await vscode.workspace.getConfiguration().update(key, value, vscode.ConfigurationTarget.Global);
+				} catch (err) {
+					failedKeys.push(key);
+				}
 			}
 
-			vscode.window.showInformationMessage('Recommended settings applied!');
+			if (failedKeys.length > 0) {
+				vscode.window.showWarningMessage('Some settings could not be applied: ' + failedKeys.join(', '));
+			} else {
+				vscode.window.showInformationMessage('Recommended settings applied!');
+			}
 		} catch (err) {
 			const errorMsg = err instanceof Error ? err.message : String(err);
 			vscode.window.showErrorMessage('Failed to apply recommended settings: ' + errorMsg);

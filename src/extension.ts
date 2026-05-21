@@ -8,7 +8,7 @@ export function activate(context: vscode.ExtensionContext) {
 		const settingsPath = path.join(context.extensionPath, 'assets', 'recommended_settings.json');
 		try {
 			const data = fs.readFileSync(settingsPath, 'utf8');
-			const settings = JSON.parse(data);
+			const settings = jsonc.parse(data);
 
 			const failedKeys: string[] = [];
 			for (const [key, value] of Object.entries(settings)) {
@@ -99,6 +99,158 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(applyKeybindingsDisposable);
+
+	let syncSettingsDisposable = vscode.commands.registerCommand('dani-settings.syncSettingsToAssets', async () => {
+		const userFolder = path.dirname(path.dirname(context.globalStorageUri.fsPath));
+		const settingsSrc = path.join(userFolder, 'settings.json');
+		const keybindingsSrc = path.join(userFolder, 'keybindings.json');
+
+		// Determine all paths to sync to.
+		// 1. The extension's internal assets path (default)
+		const destinations = [path.join(context.extensionPath, 'assets')];
+
+		// 2. If the user has the project workspace open, add its assets path as well
+		if (vscode.workspace.workspaceFolders) {
+			for (const folder of vscode.workspace.workspaceFolders) {
+				const pkgPath = path.join(folder.uri.fsPath, 'package.json');
+				if (fs.existsSync(pkgPath)) {
+					try {
+						const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+						if (pkg && pkg.name === 'dani-settings') {
+							const wsAssetsPath = path.join(folder.uri.fsPath, 'assets');
+							if (!destinations.includes(wsAssetsPath)) {
+								destinations.push(wsAssetsPath);
+							}
+						}
+					} catch (e) {
+						// Ignore package.json parsing errors
+					}
+				}
+			}
+		}
+
+		let syncedCount = 0;
+		const warnings: string[] = [];
+
+		try {
+			for (const assetsPath of destinations) {
+				if (!fs.existsSync(assetsPath)) {
+					fs.mkdirSync(assetsPath, { recursive: true });
+				}
+
+				const settingsDest = path.join(assetsPath, 'recommended_settings.json');
+				const keybindingsDest = path.join(assetsPath, 'recommended_keybindings.json');
+
+				const syncFile = (src: string, dest: string, type: string) => {
+					if (fs.existsSync(src)) {
+						const content = fs.readFileSync(src, 'utf8');
+						let processedContent = content;
+
+						if (src.endsWith('.json')) {
+							try {
+								processedContent = removePrivateSection(content);
+							} catch (e) {
+								const errorMsg = e instanceof Error ? e.message : String(e);
+								warnings.push(`Could not process ${type} file: ${errorMsg}`);
+								return;
+							}
+						}
+
+						fs.writeFileSync(dest, processedContent, 'utf8');
+						syncedCount++;
+					} else {
+						warnings.push(`Source ${type} file not found at ${src}.`);
+					}
+				};
+
+				syncFile(settingsSrc, settingsDest, 'settings');
+				syncFile(keybindingsSrc, keybindingsDest, 'keybindings');
+			}
+
+			if (syncedCount === 0) {
+				vscode.window.showWarningMessage('No settings or keybindings files were found to synchronize.');
+			} else if (warnings.length > 0) {
+				vscode.window.showWarningMessage(`Synchronized settings with warnings: ${warnings.join(' ')}`);
+			} else {
+				vscode.window.showInformationMessage('Settings and keybindings synchronized to assets!');
+			}
+		} catch (err) {
+			const errorMsg = err instanceof Error ? err.message : String(err);
+			vscode.window.showErrorMessage('Failed to synchronize settings: ' + errorMsg);
+		}
+	});
+
+	context.subscriptions.push(syncSettingsDisposable);
+}
+
+function removePrivateSection(text: string): string {
+	const scanner = jsonc.createScanner(text, false);
+	let result = '';
+	let inPrivateSection = false;
+	let token = scanner.scan();
+
+	let lastNonTriviaToken: jsonc.SyntaxKind | null = null;
+
+	const allowedBeforeComma = new Set<jsonc.SyntaxKind>([
+		jsonc.SyntaxKind.CloseBraceToken,
+		jsonc.SyntaxKind.CloseBracketToken,
+		jsonc.SyntaxKind.StringLiteral,
+		jsonc.SyntaxKind.NumericLiteral,
+		jsonc.SyntaxKind.TrueKeyword,
+		jsonc.SyntaxKind.FalseKeyword,
+		jsonc.SyntaxKind.NullKeyword
+	]);
+
+	while (token !== jsonc.SyntaxKind.EOF) {
+		const tokenOffset = scanner.getTokenOffset();
+		const tokenLength = scanner.getTokenLength();
+		const tokenText = text.substring(tokenOffset, tokenOffset + tokenLength);
+
+		if (token === jsonc.SyntaxKind.LineCommentTrivia || token === jsonc.SyntaxKind.BlockCommentTrivia) {
+			if (tokenText.includes('// PRIVATE:START') || tokenText.includes('/* PRIVATE:START')) {
+				inPrivateSection = true;
+			}
+		}
+
+		if (!inPrivateSection) {
+			const isTrivia = token === jsonc.SyntaxKind.LineCommentTrivia ||
+				token === jsonc.SyntaxKind.BlockCommentTrivia ||
+				token === jsonc.SyntaxKind.LineBreakTrivia ||
+				token === jsonc.SyntaxKind.Trivia;
+
+			let shouldAppend = true;
+			if (!isTrivia) {
+				if (token === jsonc.SyntaxKind.CommaToken) {
+					if (!lastNonTriviaToken || !allowedBeforeComma.has(lastNonTriviaToken)) {
+						shouldAppend = false;
+					}
+				}
+			}
+
+			if (shouldAppend) {
+				result += tokenText;
+				if (!isTrivia) {
+					lastNonTriviaToken = token;
+				}
+			}
+		}
+
+		if (token === jsonc.SyntaxKind.LineCommentTrivia || token === jsonc.SyntaxKind.BlockCommentTrivia) {
+			if (tokenText.includes('// PRIVATE:END') || tokenText.includes('/* PRIVATE:END')) {
+				inPrivateSection = false;
+			}
+		}
+
+		token = scanner.scan();
+	}
+
+	const errors: jsonc.ParseError[] = [];
+	jsonc.parse(result, errors, { allowTrailingComma: true });
+	if (errors.length > 0) {
+		throw new Error('Failed to parse resulting JSON: ' + errors.map(e => `error at offset ${e.offset}`).join(', '));
+	}
+
+	return result;
 }
 
 export function deactivate() { }

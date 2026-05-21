@@ -1,12 +1,96 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const { createScanner, parse } = require('jsonc-parser');
+const { createScanner, parse, SyntaxKind } = require('jsonc-parser');
+
+function detectEditorDirFromEnv() {
+  const envVars = [
+    process.env.VSCODE_IPC_HOOK,
+    process.env.VSCODE_CODE_CACHE_PATH
+  ];
+
+  for (const val of envVars) {
+    if (!val) continue;
+
+    // Check macOS: Application Support/<dir>
+    let match = val.match(/Application Support[/\\]([^/\\]+)/i);
+    if (match && match[1]) return match[1];
+
+    // Check Windows: AppData/Roaming/<dir>
+    match = val.match(/AppData[/\\]Roaming[/\\]([^/\\]+)/i);
+    if (match && match[1]) return match[1];
+
+    // Check Linux: .config/<dir>
+    match = val.match(/\.config[/\\]([^/\\]+)/i);
+    if (match && match[1]) return match[1];
+  }
+
+  // Also check other env variables specific to Antigravity
+  if (process.env.ANTIGRAVITY_EDITOR_APP_ROOT) {
+    return 'Antigravity IDE';
+  }
+
+  return null;
+}
+
+function detectEditorDirByMtime() {
+  const platform = os.platform();
+  const home = os.homedir();
+
+  let searchDir;
+  if (platform === 'win32') {
+    searchDir = process.env.APPDATA;
+  } else if (platform === 'darwin') {
+    searchDir = path.join(home, 'Library', 'Application Support');
+  } else {
+    searchDir = path.join(home, '.config');
+  }
+
+  if (!searchDir || !fs.existsSync(searchDir)) {
+    return null;
+  }
+
+  // Known VS Code-based editors
+  const candidateDirs = ['Code', 'VSCodium', 'Antigravity IDE', 'Code - Insiders'];
+  let bestDirName = null;
+  let bestMtime = 0;
+
+  for (const dirName of candidateDirs) {
+    const settingsPath = path.join(searchDir, dirName, 'User', 'settings.json');
+    if (fs.existsSync(settingsPath)) {
+      try {
+        const stats = fs.statSync(settingsPath);
+        if (stats.mtimeMs > bestMtime) {
+          bestMtime = stats.mtimeMs;
+          bestDirName = dirName;
+        }
+      } catch (e) {
+        // Ignore stats errors
+      }
+    }
+  }
+
+  return bestDirName;
+}
 
 function getVscodeUserPath() {
   const platform = os.platform();
   const home = os.homedir();
-  const editorDirName = process.env.EDITOR_DIR_NAME || 'Code';
+  let editorDirName = process.env.EDITOR_DIR_NAME;
+
+  if (!editorDirName) {
+    editorDirName = detectEditorDirFromEnv();
+  }
+
+  if (!editorDirName) {
+    editorDirName = detectEditorDirByMtime();
+  }
+
+  if (!editorDirName) {
+    editorDirName = 'Code';
+  }
+
+  console.log(`🔍 Detected editor settings directory: ${editorDirName}`);
 
   if (platform === 'win32') {
     return path.join(process.env.APPDATA, editorDirName, 'User');
@@ -23,20 +107,53 @@ function removePrivateSection(text) {
   let inPrivateSection = false;
   let token = scanner.scan();
 
-  while (token !== 17) { // SyntaxKind.EOF
-    const tokenText = text.substring(scanner.getTokenOffset(), scanner.getTokenOffset() + scanner.getTokenLength());
+  let lastNonTriviaToken = null;
 
-    if (token === 12 || token === 13) {
+  const allowedBeforeComma = new Set([
+    SyntaxKind.CloseBraceToken,
+    SyntaxKind.CloseBracketToken,
+    SyntaxKind.StringLiteral,
+    SyntaxKind.NumericLiteral,
+    SyntaxKind.TrueKeyword,
+    SyntaxKind.FalseKeyword,
+    SyntaxKind.NullKeyword
+  ]);
+
+  while (token !== SyntaxKind.EOF) {
+    const tokenOffset = scanner.getTokenOffset();
+    const tokenLength = scanner.getTokenLength();
+    const tokenText = text.substring(tokenOffset, tokenOffset + tokenLength);
+
+    if (token === SyntaxKind.LineCommentTrivia || token === SyntaxKind.BlockCommentTrivia) {
       if (tokenText.includes('// PRIVATE:START') || tokenText.includes('/* PRIVATE:START')) {
         inPrivateSection = true;
       }
     }
 
     if (!inPrivateSection) {
-      result += tokenText;
+      const isTrivia = token === SyntaxKind.LineCommentTrivia ||
+                       token === SyntaxKind.BlockCommentTrivia ||
+                       token === SyntaxKind.LineBreakTrivia ||
+                       token === SyntaxKind.Trivia;
+
+      let shouldAppend = true;
+      if (!isTrivia) {
+        if (token === SyntaxKind.CommaToken) {
+          if (!lastNonTriviaToken || !allowedBeforeComma.has(lastNonTriviaToken)) {
+            shouldAppend = false;
+          }
+        }
+      }
+
+      if (shouldAppend) {
+        result += tokenText;
+        if (!isTrivia) {
+          lastNonTriviaToken = token;
+        }
+      }
     }
 
-    if (token === 12 || token === 13) {
+    if (token === SyntaxKind.LineCommentTrivia || token === SyntaxKind.BlockCommentTrivia) {
       if (tokenText.includes('// PRIVATE:END') || tokenText.includes('/* PRIVATE:END')) {
         inPrivateSection = false;
       }
@@ -45,10 +162,10 @@ function removePrivateSection(text) {
     token = scanner.scan();
   }
 
-  try {
-    parse(result);
-  } catch (error) {
-    throw new Error('Failed to parse resulting JSON: ' + error.message);
+  const errors = [];
+  parse(result, errors, { allowTrailingComma: true });
+  if (errors.length > 0) {
+    throw new Error('Failed to parse resulting JSON: ' + errors.map(e => `error at offset ${e.offset}`).join(', '));
   }
 
   return result;

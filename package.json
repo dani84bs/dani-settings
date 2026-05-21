@@ -2,7 +2,7 @@
   "name": "dani-settings",
   "displayName": "dani-settings",
   "description": "My config",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "engines": {
     "vscode": "^1.107.0"
   },
@@ -42,6 +42,10 @@
       {
         "command": "dani-settings.applyRecommendedKeybindings",
         "title": "Dani: Apply keybindings"
+      },
+      {
+        "command": "dani-settings.syncSettingsToAssets",
+        "title": "Dani: Sync settings to assets"
       }
     ]
   },
@@ -55,10 +59,10 @@
     "package": "npm run check-types && npm run lint && node esbuild.js --production",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "pretest": "node setup-test-settings.js && npm run compile-tests && npm run compile && npm run lint",
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test --timeout 15000"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",

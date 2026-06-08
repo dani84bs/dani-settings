@@ -2,7 +2,7 @@
   "name": "dani-settings",
   "displayName": "dani-settings",
   "description": "My config",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "vscode": "^1.107.0"
   },
@@ -18,11 +18,10 @@
     "jdinhlife.gruvbox",
     "TomPollak.lazygit-vscode",
     "bodil.file-browser",
-    "dani84bs.quickfire",
-    "ms-python.python",
-    "ms-vscode-remote.vscode-remote-extensionpack"
+    "dani84bs.quickfire"
   ],
   "extensionPack": [
+    "ms-vscode-remote.vscode-remote-extensionpack",
     "yzhang.markdown-all-in-one",
     "ms-python.python",
     "christian-kohler.path-intellisense",

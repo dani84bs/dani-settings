@@ -21,6 +21,13 @@ suite('Extension Test Suite', function () {
 		assert.strictEqual(-1, [1, 2, 3].indexOf(0));
 	});
 
+	test('Should not have vscode-remote-extensionpack in extensionDependencies', () => {
+		const pkgPath = path.join(__dirname, '..', '..', 'package.json');
+		const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+		const deps = pkg.extensionDependencies || [];
+		assert.ok(!deps.includes('ms-vscode-remote.vscode-remote-extensionpack'), 'vscode-remote-extensionpack must not be a hard dependency (it breaks VSCodium compatibility)');
+	});
+
 	test('Apply recommended settings command runs without crashing and applies settings', async () => {
 		await vscode.commands.executeCommand('dani-settings.applyRecommendedSettings');
 		const config = vscode.workspace.getConfiguration();

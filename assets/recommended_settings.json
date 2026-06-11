@@ -20,14 +20,6 @@
     },
     "lazygit-vscode.venvActivationDelay": 200,
     "path-intellisense.autoTriggerNextSuggestion": true,
-    "python.analysis.autoFormatStrings": true,
-    "python.analysis.autoImportCompletions": true,
-    "python.analysis.diagnosticMode": "workspace",
-    "python.analysis.exclude": [
-        "**/ignore",
-        "**/.venv"
-    ],
-    "python.analysis.typeCheckingMode": "standard",
     "telemetry.editStats.enabled": false,
     "telemetry.feedback.enabled": false,
     "telemetry.telemetryLevel": "off",
@@ -407,6 +399,5 @@
     "terminal.integrated.commandsToSkipShell": [
         "quickfire.showQuickActions"
     ],
-    "dotnetAcquisitionExtension.enableTelemetry": false,
     "code-runner.enableAppInsights": false
 }

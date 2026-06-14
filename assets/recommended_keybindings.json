@@ -161,5 +161,9 @@
     {
         "key": "ctrl+n",
         "command": "-workbench.action.files.newUntitledFile"
+    },
+    {
+        "key": "shift+cmd+l",
+        "command": "-lazygit-vscode.toggle"
     }
 ]

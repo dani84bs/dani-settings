@@ -1,4 +1,5 @@
 {
+    
     "workbench.startupEditor": "none",
     "terminal.integrated.defaultProfile.osx": "fish",
     "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
@@ -424,10 +425,11 @@
         "quickfire.showQuickActions"
     ],
     "code-runner.enableAppInsights": false,
-    "workbench.colorTheme": "Gruvbox Light Hard",
+    "workbench.colorTheme": "Gruvbox Dark Hard",
     "workbench.preferredDarkColorTheme": "Gruvbox Dark Hard",
     "workbench.preferredLightColorTheme": "Gruvbox Light Hard",
     "[markdown]": {
         "editor.defaultFormatter": "yzhang.markdown-all-in-one"
     },
+    "workbench.editor.useModal": "off"
 }

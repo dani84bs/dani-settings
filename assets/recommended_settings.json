@@ -1,7 +1,6 @@
 {
     "workbench.startupEditor": "none",
     "terminal.integrated.defaultProfile.osx": "fish",
-    "workbench.colorTheme": "Gruvbox Dark Hard",
     "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
     "editor.cursorSurroundingLines": 10,
     "editor.formatOnPaste": true,
@@ -18,7 +17,7 @@
         "secondarySidebar": "hide",
         "sidebar": "hide"
     },
-    "lazygit-vscode.venvActivationDelay": 200,
+    "lazygit-vscode.venvActivationDelay": 500,
     "path-intellisense.autoTriggerNextSuggestion": true,
     "telemetry.editStats.enabled": false,
     "telemetry.feedback.enabled": false,
@@ -108,6 +107,11 @@
                     "key": "p",
                     "description": "Focus previous buffer",
                     "command": "workbench.action.previousEditor"
+                },
+                {
+                    "key": "o",
+                    "description": "Close other buffers",
+                    "command": "workbench.action.closeOtherEditors"
                 }
             ]
         },
@@ -365,6 +369,27 @@
                     "key": "p",
                     "description": "Toggle panel",
                     "command": "workbench.action.togglePanel"
+                },
+                {
+                    "key": "t",
+                    "description": "Toggle panel",
+                    "command": "workbench.action.togglePanel"
+                },
+                {
+                    "key": "d",
+                    "description": "Toggle Light/Dark",
+                    "command": "workbench.action.toggleLightDarkThemes"
+                },
+                {
+                    "key": "n",
+                    "description": "Close all notifications",
+                    "command": "runCommands",
+                    "args": {
+                        "commands": [
+                            "notifications.hideList",
+                            "notifications.hideToasts"
+                        ]
+                    }
                 }
             ]
         },
@@ -395,9 +420,14 @@
             ]
         }
     ],
-    "workbench.editor.useModal": "off",
     "terminal.integrated.commandsToSkipShell": [
         "quickfire.showQuickActions"
     ],
-    "code-runner.enableAppInsights": false
+    "code-runner.enableAppInsights": false,
+    "workbench.colorTheme": "Gruvbox Light Hard",
+    "workbench.preferredDarkColorTheme": "Gruvbox Dark Hard",
+    "workbench.preferredLightColorTheme": "Gruvbox Light Hard",
+    "[markdown]": {
+        "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+    },
 }

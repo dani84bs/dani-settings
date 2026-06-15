@@ -2,7 +2,7 @@
   "name": "dani-settings",
   "displayName": "dani-settings",
   "description": "My config",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "vscode": "^1.107.0"
   },

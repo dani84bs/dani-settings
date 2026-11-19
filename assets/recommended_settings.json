@@ -1,7 +1,6 @@
 {
     
     "workbench.startupEditor": "none",
-    "terminal.integrated.defaultProfile.osx": "fish",
     "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
     "editor.cursorSurroundingLines": 10,
     "editor.formatOnPaste": true,
@@ -417,6 +416,11 @@
                     "key": "s",
                     "description": "Switch window",
                     "command": "workbench.action.switchWindow"
+                },
+                {
+                    "key": "z",
+                    "description": "Toggle centered layout",
+                    "command": "workbench.action.toggleCenteredLayout"
                 }
             ]
         }
@@ -431,5 +435,22 @@
     "[markdown]": {
         "editor.defaultFormatter": "yzhang.markdown-all-in-one"
     },
-    "workbench.editor.useModal": "off"
+    "dev.containers.optimisticallyLaunchDocker": false,
+    "dev.containers.defaultExtensions": [
+        "anthropic.claude-code",
+        "undefined_publisher.dani-settings"
+    ],
+    "remote.defaultExtensionsIfInstalledLocally": [
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "GitHub.vscode-pull-request-github",
+        "undefined_publisher.dani-settings",
+        "anthropic.claude-code"
+    ],
+    "workbench.editor.useModal": "off",
+    "zenMode.fullScreen": false,
+    "zenMode.hideLineNumbers": false,
+    "zenMode.hideStatusBar": false,
+    "markdown-mermaid.lightModeTheme": "dark",
+    "markdown-mermaid.darkModeTheme": "dark",
 }

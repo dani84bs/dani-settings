@@ -225,6 +225,11 @@
                     "key": "g",
                     "command": "lazygit-vscode.toggle",
                     "description": "Spawn Lazygit"
+                },
+                {
+                    "key": "h",
+                    "command": "git.viewHistory",
+                    "description": "View git log"
                 }
             ]
         },
@@ -453,4 +458,5 @@
     "zenMode.hideStatusBar": false,
     "markdown-mermaid.lightModeTheme": "dark",
     "markdown-mermaid.darkModeTheme": "dark",
+    "gitHistory.showFileHistorySplit": false,
 }

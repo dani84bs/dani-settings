@@ -26,7 +26,8 @@
     "mechatroner.rainbow-csv",
     "formulahendry.code-runner",
     "tamasfe.even-better-toml",
-    "shd101wyy.markdown-preview-enhanced"
+    "shd101wyy.markdown-preview-enhanced",
+    "donjayamanne.githistory"
   ],
   "activationEvents": [],
   "main": "./dist/extension.js",
